@@ -63,7 +63,7 @@ RoboExhibit is an AI-driven interactive museum experience that combines **ontolo
 ```bash
 # Create and activate an isolated environment, then install dependencies
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+source .venv/bin/activate  # Windows: .venv\Scripts\\activate
 python -m pip install -r requirements.txt
 
 # Set your Hugging Face API token
