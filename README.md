@@ -61,17 +61,25 @@ RoboExhibit is an AI-driven interactive museum experience that combines **ontolo
 ### Running the Backend
 
 ```bash
-# Set your HuggingFace API key
-export HF_API_KEY="your_token_here"
+# Create and activate an isolated environment, then install dependencies
+python -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 
-# Install dependencies
-pip install flask rdflib transformers torch
+# Set your Hugging Face API token
+export HF_API_KEY="your_token_here"  # Windows PowerShell: $env:HF_API_KEY="your_token_here"
 
-# Start the server
+# Start the API (bound to localhost by default)
 python app.py
+# Interactive API docs: http://127.0.0.1:8000/docs
 ```
 
-### Unity Frontend
+### Security and deployment
+
+The API uses the checked-in `Ontologia.rdf` file. It binds to `127.0.0.1` by default; do not expose it to a public network without adding authentication and rate limiting. SPARQL `SERVICE` clauses are rejected to keep queries local.
+
+## Unity Frontend
 
 The Unity project is available separately:
 📦 [Download from Google Drive](https://drive.google.com/drive/folders/1RwsfyaBKtPtwyXdXrcuHWLGNexv6quj4?usp=sharing)

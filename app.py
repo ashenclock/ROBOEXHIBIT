@@ -69,7 +69,7 @@ fondamentale per l'esecuzione di query SPARQL, in quanto definisce le classi,
 le proprietà e le istanze presenti nell'ontologia del museo.
 """
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-RDF_FILE = os.path.join(BASE_DIR, "Ontologia_corretto-2.rdf")
+RDF_FILE = os.path.join(BASE_DIR, "Ontologia.rdf")
 
 ontology_graph = rdflib.Graph()
 try:
@@ -335,6 +335,11 @@ def is_sparql_query_valid(query: str) -> bool:
     Ritorna True se la query è sintatticamente corretta, False altrimenti.
     """
     logger.debug(f"[is_sparql_query_valid] Validazione SPARQL: {query}")
+    # The endpoint must only query the local ontology. SPARQL SERVICE can make
+    # RDFLib contact arbitrary remote endpoints, so reject it before parsing.
+    if "SERVICE" in query.upper():
+        logger.warning("[is_sparql_query_valid] Query SERVICE rifiutata.")
+        return False
     try:
         parseQuery(query)
         logger.debug("[is_sparql_query_valid] Query SPARQL sintatticamente corretta.")
@@ -620,4 +625,5 @@ if __name__ == "__main__":
     Avvio dell'applicazione FastAPI sulla porta 8000, 
     utile se eseguito come script principale.
     """
-    logger.info("Avvio dell'applicazione FastAPI.")
+    logger.info("Avvio dell'applicazione FastAPI su http://127.0.0.1:8000.")
+    uvicorn.run(app, host="127.0.0.1", port=int(os.getenv("PORT", "8000")))
