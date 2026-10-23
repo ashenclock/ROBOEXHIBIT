@@ -337,7 +337,7 @@ def is_sparql_query_valid(query: str) -> bool:
     logger.debug(f"[is_sparql_query_valid] Validazione SPARQL: {query}")
     # The endpoint must only query the local ontology. SPARQL SERVICE can make
     # RDFLib contact arbitrary remote endpoints, so reject it before parsing.
-    if re.search(r"\\bSERVICE\\b", query, flags=re.IGNORECASE):
+    if "SERVICE" in query.upper():
         logger.warning("[is_sparql_query_valid] Query SERVICE rifiutata.")
         return False
     try:
